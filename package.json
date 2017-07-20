@@ -11,13 +11,15 @@
     "accounts"
   ],
   "author": "Gilfoyle Young",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Gilfoylex/mywechat.git"
   },
   "dependencies": {
     "koa": "^2.3.0",
+    "raw-body": "^2.2.0",
+    "request": "^2.81.0",
     "sha1": "^1.1.1"
   }
 }

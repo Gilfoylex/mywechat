@@ -1,7 +1,7 @@
 'use strict'
 
 const koa = require('koa');
-const sha1 = require('sha1');
+const wechat = require('./wechat/g.js');
 const app = new koa();
 
 var config = {
@@ -19,23 +19,7 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} -- ${ms}ms`);
 });
 
-app.use(async (ctx, next) => {
-  let query = ctx.query;
-  let token = config.wechat.token;
-  let signature = query.signature;
-  let nonce = query.nonce;
-  let timestamp = query.timestamp;
-  let echostr = query.echostr;
-  let str = [token, timestamp, nonce].sort().join('');
-  let sha = sha1(str);
-
-  if (sha === signature){
-    ctx.body = echostr + '';
-  }
-  else{
-    ctx.body = 'wrong';
-  }
-});
+app.use(wechat(config.wechat));
 
 app.listen(3700);
 console.log('Listening : 3700');
