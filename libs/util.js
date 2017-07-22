@@ -3,6 +3,7 @@
 const fs = require('fs');
 const request = require('request');
 const xml2js = require('xml2js');
+const tpl = require('./tpl.js');
 
 
 var util = {};
@@ -94,6 +95,27 @@ util.formatMessage = (result) => {
   }
 
   return message;
+}
+
+util.tpl = (content, message) => {
+  let info = {};
+  let type = 'text';
+  let fromUserName = message.FromUserName;
+  let toUserName = message.ToUsername;
+
+  if (Array.isArray(content)) {
+    type = 'news';
+  }
+
+  type = content.type || type;
+
+  info.content = content;
+  info.createTime = new Date().getTime();
+  info.msgType = type;
+  info.toUserName = fromUserName;
+  info.fromUserName = toUserName;
+
+  return tpl.compiled(info);
 }
 
 module.exports = util;
